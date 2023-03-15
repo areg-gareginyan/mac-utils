@@ -5,17 +5,25 @@
 # Oh My Zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-### Brew
-
 # Brew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-(echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/areg/.zprofile
+(echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/$USER/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-### VS code
+### Common
 
 # VS code
 brew install --cask visual-studio-code
+code --install-extension eamodio.gitlens
+
+# MacPass
+brew install --cask macpass
+
+# Lefthook
+brew install lefthook
+
+# NordLayer
+brew install --cask nordlayer
 
 ### Communication
 
@@ -25,13 +33,11 @@ brew install --cask thunderbird
 # Telegram
 brew install --cask telegram
 
-# Slack - comes as standard IM setup
+# Whatsapp
+brew install --cask whatsapp
+
+# Slack - sometimes comes preinstalled
 # brew install --cask slack
-
-### Security
-
-# Mac pass
-brew install --cask macpass
 
 ### Node.js
 
@@ -54,7 +60,24 @@ brew install tflint
 # tfsec
 brew install tfsec
 
-### Git
+# terraform-docs
+brew install terraform-docs
 
-# lefthook
-brew install lefthook
+# VSCode plugins
+code --install-extension hashicorp.terraform
+code --install-extension tfsec.tfsec
+
+### AWS
+
+# awscli
+brew install awscli
+
+### K8
+
+# kubectl
+brew install kubectl
+
+### Performance testing
+
+# k6
+brew install k6
