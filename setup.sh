@@ -14,57 +14,59 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 mkdir -p ~/.vim ~/.vim/autoload ~/.vim/backup ~/.vim/colors ~/.vim/plugged
 cp vimrc ~/.vimrc
 
-### Common
+### Office
 
-# VS code
-brew install --cask visual-studio-code
-code --install-extension eamodio.gitlens
+# Libre office
+brew install --cask libreoffice
 
-# MacPass
+# Messengers
+brew install --cask thunderbird
+brew install --cask telegram
+brew install --cask whatsapp
+# Slack ometimes comes preinstalled
+# brew install --cask slack
+
+# Security
 brew install --cask macpass
+brew install --cask nordlayer
+
+### Development
 
 # Lefthook
 brew install lefthook
 
-# NordLayer
-brew install --cask nordlayer
+# Doc generators
+brew install pandoc
+brew install plantuml
 
-### Communication
+# Docker
+brew install docker
+brew install docker-compose
 
-# Thunderbird
-brew install --cask thunderbird
-
-# Telegram
-brew install --cask telegram
-
-# Whatsapp
-brew install --cask whatsapp
-
-# Slack - sometimes comes preinstalled
-# brew install --cask slack
+# VS code
+brew install --cask visual-studio-code
+code --install-extension eamodio.gitlens
+code --install-extension yzhang.markdown-all-in-one
+code --install-extension jebbs.plantuml
 
 ### Node.js
 
-# nvm
+# Version management
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 
 ### Go
 
-# gvm
+# Versiom management
 bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
 
 ### Terraform
 
-# tfenv
+# Version management
 brew install tfenv
 
-# tflint
-brew install tflint
-
-# tfsec
+# Helper tools
 brew install tfsec
-
-# terraform-docs
+brew install tflint
 brew install terraform-docs
 
 # VSCode plugins
@@ -81,7 +83,11 @@ brew install awscli
 # kubectl
 brew install kubectl
 
-### Performance testing
+### QA
 
-# k6
+# API testing
+brew install --cask postman
+brew install newman
+
+# Performance testing
 brew install k6
