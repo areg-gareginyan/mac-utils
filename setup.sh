@@ -16,23 +16,27 @@ cp vimrc ~/.vimrc
 
 ### Office
 
-# Libre office
+# Libre Office
 brew install --cask libreoffice
 
 # Messengers
 brew install --cask thunderbird
 brew install --cask telegram
 brew install --cask whatsapp
-# Slack ometimes comes preinstalled
+# Skype & Slack sometimes come preinstalled
+# brew install --cask skype
 # brew install --cask slack
 
 # Security
 brew install --cask macpass
 brew install --cask nordlayer
 
+# Miscellaneous
+brew install --cask fbreader
+
 ### Development
 
-# Lefthook
+# Git hooks
 brew install lefthook
 
 # Doc generators
@@ -56,8 +60,14 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 
 ### Go
 
-# Versiom management
-bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+# Version management
+zsh < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+# Workaround to get some MacOS prebuilt Go for compliing gvm Go from source
+# https://github.com/moovweb/gvm/issues/287
+brew install go
+gvm install go1.20
+gvm use go1.20 --default
+brew uninstall go
 
 ### Terraform
 
@@ -75,13 +85,14 @@ code --install-extension tfsec.tfsec
 
 ### AWS
 
-# awscli
 brew install awscli
+brew install eksctl
 
 ### K8
 
-# kubectl
 brew install kubectl
+brew install helm
+brew install istioctl
 
 ### QA
 
