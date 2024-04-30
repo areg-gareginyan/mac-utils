@@ -15,6 +15,8 @@ brew install jq
 brew install yq
 
 ### Office
+# Browsers
+brew install --cask google-chrome
 # Libre Office
 brew install --cask libreoffice
 # Messengers
@@ -49,12 +51,15 @@ code --install-extension yzhang.markdown-all-in-one
 code --install-extension jebbs.plantuml
 code --install-extension github.vscode-github-actions
 code --install-extension randomfractalsinc.geo-data-viewer
+code --install-extension github.copilot
+code --install-extension ms-azuretools.vscode-docker
 
 ### Node.js
 # Package manager
 brew install yarn
 # Version management
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+code --install-extension dbaeumer.vscode-eslint
 
 ### Go
 # Version management
@@ -96,6 +101,9 @@ echo "if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-
 ### AWS
 brew install awscli
 brew install eksctl
+
+### Azure
+brew install azure-cli
 
 ### K8
 brew install kubectl
