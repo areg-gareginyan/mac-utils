@@ -1,130 +1,164 @@
-#!/bin/sh
+# # #!/bin/sh
+
+### Helper methods
+function brew_setup {
+    if brew ls --versions "$1" >/dev/null; then
+        HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade "$1"
+    else
+        HOMEBREW_NO_AUTO_UPDATE=1 brew install "$1"
+    fi
+}
+
+function brew_setup_cask {
+    if brew ls --cask --versions "$1" >/dev/null; then
+        HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade --cask "$1"
+    else
+        HOMEBREW_NO_AUTO_UPDATE=1 brew install --cask "$1"
+    fi
+}
+
+function vscode_setup_extension {
+    code --install-extension "$1" --force
+}
 
 ### Shell
 # Oh My Zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+if which omz >/dev/null; then
+    omz update
+else
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
 # Brew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-(echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/$USER/.zprofile
-eval "$(/opt/homebrew/bin/brew shellenv)"
+if which brew >/dev/null; then
+    brew update
+else
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/$USER/.zprofile
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 # Vim
 mkdir -p ~/.vim ~/.vim/autoload ~/.vim/backup ~/.vim/colors ~/.vim/plugged
 cp vimrc ~/.vimrc
 # JSON & YAML
-brew install jq
-brew install yq
+brew_setup jq
+brew_setup yq
 
 ### Office
 # Browsers
-brew install --cask google-chrome
+brew_setup_cask google-chrome
 # Libre Office
-brew install --cask libreoffice
+brew_setup_cask libreoffice
 # Messengers
-brew install --cask thunderbird
-brew install --cask telegram
-brew install --cask whatsapp
-brew install --cask microsoft-teams
-# Skype & Slack sometimes come preinstalled
-# brew install --cask skype
-# brew install --cask slack
+brew_setup_cask thunderbird
+brew_setup_cask telegram
+brew_setup_cask whatsapp
+brew_setup_cask microsoft-teams
+## NOTE: Skype & Slack sometimes come preinstalled
+# brew_setup_cask skype
+# brew_setup_cask slack
 # Security
-brew install --cask macpass
+brew_setup_cask macpass
 # Network
-brew install --cask nordlayer
-brew install --cask openvpn-connect
+brew_setup_cask nordlayer
+brew_setup_cask openvpn-connect
 # Miscellaneous
-brew install --cask fbreader
+brew_setup_cask fbreader
 
 ### Development
 # Git hooks
-brew install lefthook
+brew_setup lefthook
 # Doc generators
-brew install pandoc
-brew install plantuml
+brew_setup pandoc
+brew_setup plantuml
 # Docker
-brew install --cask docker
-brew install docker-compose
+brew_setup_cask docker
+brew_setup docker-compose
 # VS code
-brew install --cask visual-studio-code
-code --install-extension eamodio.gitlens
-code --install-extension yzhang.markdown-all-in-one
-code --install-extension jebbs.plantuml
-code --install-extension github.vscode-github-actions
-code --install-extension randomfractalsinc.geo-data-viewer
-code --install-extension github.copilot
-code --install-extension ms-azuretools.vscode-docker
+brew_setup_cask visual-studio-code
+vscode_setup_extension eamodio.gitlens
+vscode_setup_extension yzhang.markdown-all-in-one
+vscode_setup_extension jebbs.plantuml
+vscode_setup_extension github.vscode-github-actions
+vscode_setup_extension randomfractalsinc.geo-data-viewer
+vscode_setup_extension github.copilot
+vscode_setup_extension github.copilot-chat
+vscode_setup_extension ms-azuretools.vscode-docker
 
 ### Node.js
 # Package manager
-brew install yarn
+brew_setup yarn
 # Version management
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-code --install-extension dbaeumer.vscode-eslint
+# curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+vscode_setup_extension dbaeumer.vscode-eslint
 
 ### Go
 # Version management
-zsh < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
-# Workaround to get some MacOS prebuilt Go for compliing gvm Go from source
-# https://github.com/moovweb/gvm/issues/287
-brew install go
-gvm install go1.20
-gvm use go1.20 --default
-brew uninstall go
-# VS Code
-code --install-extension golang.go
-go install -v golang.org/x/tools/gopls@latest
-go install -v github.com/ramya-rao-a/go-outline@latest
-go install -v golang.org/x/tools/cmd/goimports@latest
-go install -v github.com/stamblerre/gocode@latest
-#go install -v github.com/rogpeppe/godef@v1.1.2
+if which brew >/dev/null; then
+    echo "GVM already installed"
+else
+    zsh < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+    # Workaround to get some MacOS prebuilt Go for compliing gvm Go from source
+    # https://github.com/moovweb/gvm/issues/287
+    brew install go
+    gvm install go1.20
+    gvm use go1.20 --default
+    brew uninstall go
+fi
+# # VS Code
+vscode_setup_extension golang.go
+# go install -v golang.org/x/tools/gopls@latest
+# go install -v github.com/ramya-rao-a/go-outline@latest
+# go install -v golang.org/x/tools/cmd/goimports@latest
+# go install -v github.com/stamblerre/gocode@latest
+# #go install -v github.com/rogpeppe/godef@v1.1.2
 
-### Kotlin
-brew install micronaut
+# ### Kotlin
+brew_setup micronaut
 
 ### Terraform
 # Version management
-brew install tfenv
+brew_setup tfenv
 # Helper tools
-brew install tfsec
-brew install tflint
-brew install terraform-docs
+brew_setup tfsec
+brew_setup tflint
+brew_setup terraform-docs
 # VSCode plugins
-code --install-extension hashicorp.terraform
-code --install-extension tfsec.tfsec
+vscode_setup_extension hashicorp.terraform
+vscode_setup_extension tfsec.tfsec
 
 ### Python
 # Version managmenet & virtual environments
-brew install pyenv
-brew install pyenv-virtualenv
-echo "if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi" >> ~/.zshrc
+brew_setup pyenv
+brew_setup pyenv-virtualenv
+# echo "if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi" >> ~/.zshrc
 
 ### AWS
-brew install awscli
-brew install eksctl
+brew_setup awscli
+brew_setup eksctl
 
 ### Azure
-brew install azure-cli
+brew_setup azure-cli
 
 ### K8
-brew install kubectl
-brew install helm
-brew install istioctl
+brew_setup kubectl
+brew_setup helm
+brew_setup istioctl
 
 ### QA
 # API testing
-brew install --cask postman
-brew install newman
+brew_setup_cask postman
+brew_setup newman
 # Performance testing
-brew install k6
+brew_setup k6
 
 ### Mobile
-brew install --cask android-studio
-brew install --cask flutter
+brew_setup_cask android-studio
+brew_setup_cask flutter
 
 ### Database
-brew install --cask mongodb-compass
-brew install --cask nosqlbooster-for-mongodb
-brew install --cask pgadmin4
+brew_setup_cask mongodb-compass
+brew_setup_cask nosqlbooster-for-mongodb
+brew_setup_cask pgadmin4
 
 ### Entertainment
-brew install --cask steam
+brew_setup_cask steam
